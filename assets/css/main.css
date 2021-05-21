@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+}
+
+label {
+  display: inline-block;
+  position: relative;
+  padding-right: 10px;
+  text-align: right;
+  width: 79px;
+}
+
+input,
+select,
+button {
+  margin: 2px;
+  max-width: fit-content;
+}
+
+select {
+  width: 150px;
+}
