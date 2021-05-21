@@ -47,7 +47,6 @@ const getMembersByName = async (req, res, next) => {
 
 app.post("/api/", async (req, res) => {
   const member = new Member({ ...req.body });
-
   try {
     const newMember = await member.save();
     res.status(201).json(newMember);
@@ -58,7 +57,7 @@ app.post("/api/", async (req, res) => {
 
 app.get("/api/", async (req, res) => {
   try {
-    const member = await Member.find();
+    const member = await Member.find()
     res.json(member);
   } catch (e) {
     res.status(500).json({ messeage: e.message });

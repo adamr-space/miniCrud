@@ -4,9 +4,9 @@ const form = {
   email: document.getElementById("email"),
   telephone: document.getElementById("telephone"),
   select: document.getElementById("select"),
-  form: document.getElementById("memberForm"),
+  formData: document.getElementById("memberForm"),
   getFormData() {
-    data = new FormData(this.form);
+    data = new FormData(this.formData);
     data.delete("select");
     return data;
   },
@@ -48,7 +48,10 @@ const selectMember = () => {
   const idx = sl.selectedIndex;
   const id = sl.options[idx].dataset.id;
   if (members.length == 1 && event.type == "click") showMember(members[0]);
-  else members.forEach((m) => {if (m._id == id) showMember(m)});
+  else
+    members.forEach((m) => {
+      if (m._id == id) showMember(m);
+    });
 };
 
 const populateSelect = (o) => {
@@ -61,7 +64,7 @@ const populateSelect = (o) => {
     sl.appendChild(opt);
   });
   sl.disabled = sl.options.length === 0 ? true : false;
-  document.getElementById("fetchAllButton").hidden = sl.options.length === 0?false:true
+  document.getElementById("fetchAllButton").hidden = sl.options.length === 0 ? false : true;
 };
 
 const makeEventListeners = () => {
@@ -78,13 +81,14 @@ const submit = async (method, url, formData, responseProcessor) => {
     (method === "POST" || method === "PATCH") && formData instanceof FormData
       ? JSON.stringify(Object.fromEntries(formData))
       : null;
-  if (method !== "GET") form.form.reset();
+  if (method !== "GET") form.formData.reset();
   const response = await fetch(url, { method, body, headers });
-
+  const status = document.getElementById("status");
   if (response.ok) {
     const obj = await response.json();
+    status.innerHTML = `Response CODE: ${response.status} - ${response.statusText}`;
     if (responseProcessor) responseProcessor(obj);
-  } else alert("HTTP ERROR:" + response.status);
+  } else status.innerHTML = `Response CODE: ${response.status} - ${response.statusText}`;
 };
 
 const init = () => {
